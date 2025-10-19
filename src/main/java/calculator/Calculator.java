@@ -13,7 +13,7 @@ public class Calculator {
         String delimiter = "[,:]";
         String number = input;
 
-        if(input.startsWith("\\")) {
+        if(input.startsWith("//")) {
             Pattern pattern = Pattern.compile("//(.)\n(.*)");
             Matcher matcher = pattern.matcher(input);
 
@@ -28,8 +28,8 @@ public class Calculator {
 
     private String[] checkMatcher(Matcher matcher, String delimiter, String number) {
         if(matcher.find()) {
-            delimiter = matcher.group(0);
-            number = matcher.group(1);
+            delimiter = matcher.group(1);
+            number = matcher.group(2);
         }
 
         else if(!matcher.find()) throw new IllegalArgumentException();
@@ -38,6 +38,10 @@ public class Calculator {
     }
 
     public int calculateSum(String input) {
+
+        if (input == null || input.isEmpty()) {
+            return 0;
+        }
 
         int sum = 0;
 
@@ -63,7 +67,7 @@ public class Calculator {
 
 
     public void validateNumber(int number) {
-        if(number > 0) throw new IllegalArgumentException();
+        if(number < 0) throw new IllegalArgumentException();
     }
 
 
