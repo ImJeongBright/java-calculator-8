@@ -7,13 +7,14 @@ public class Calculator {
 
 
     private String[] separateString(String input) {
+        String replace = input.replace("\\n", "\n");
 
         String delimiter = "[,:]";
         String number = input;
 
         if(input.startsWith("//")) {
             Pattern pattern = Pattern.compile("//(.)\n(.*)");
-            Matcher matcher = pattern.matcher(input);
+            Matcher matcher = pattern.matcher(replace);
 
             String[] customDelimiter = checkMatcher(matcher, delimiter, number);
 
@@ -30,7 +31,7 @@ public class Calculator {
             number = matcher.group(2);
         }
 
-        else if(!matcher.find()) throw new IllegalArgumentException();
+        else throw new IllegalArgumentException();
 
         return new String[]{delimiter, number};
     }
