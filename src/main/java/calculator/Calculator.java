@@ -5,8 +5,6 @@ import java.util.regex.Pattern;
 
 public class Calculator {
 
-    public static final String defaultDelimiter = ",:";
-
 
     private String[] separateString(String input) {
 
