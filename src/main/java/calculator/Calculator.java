@@ -8,7 +8,7 @@ public class Calculator {
     public static final String defaultDelimiter = ",:";
 
 
-    public String[] separateString(String input) {
+    private String[] separateString(String input) {
 
         String delimiter = "[,:]";
         String number = input;
@@ -17,7 +17,7 @@ public class Calculator {
             Pattern pattern = Pattern.compile("//(.)\n(.*)");
             Matcher matcher = pattern.matcher(input);
 
-            String[] customDelimiter = verificationMatcher(matcher, delimiter, number);
+            String[] customDelimiter = checkMatcher(matcher, delimiter, number);
 
             delimiter = Pattern.quote(customDelimiter[0]);
             number = customDelimiter[1];
@@ -26,11 +26,13 @@ public class Calculator {
         return number.split(delimiter);
     }
 
-    public String[] verificationMatcher(Matcher matcher, String delimiter, String number) {
+    private String[] checkMatcher(Matcher matcher, String delimiter, String number) {
         if(matcher.find()) {
             delimiter = matcher.group(0);
             number = matcher.group(1);
         }
+
+        else if(!matcher.find()) throw new IllegalArgumentException();
 
         return new String[]{delimiter, number};
     }
@@ -43,12 +45,25 @@ public class Calculator {
 
         for (String s : separatedString) {
 
-            if(!s.isEmpty())
-                sum += Integer.parseInt(s);
+            try {
+
+                int number = Integer.parseInt(s);
+                validateNumber(number);
+
+                sum += number;
+
+            } catch (NumberFormatException n) {
+                throw new IllegalArgumentException();
+            }
 
         }
 
         return sum;
+    }
+
+
+    public void validateNumber(int number) {
+        if(number > 0) throw new IllegalArgumentException();
     }
 
 
